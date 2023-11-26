@@ -23,7 +23,7 @@ git submodule update --init --recursive
 Run verification:
 
 ```shell
-mill "chiselModule[3.5.4]".test.testOnly formal.NutCoreFormalSpec
+mill "chiselModule[3.6.0]".test.testOnly formal.NutCoreFormalSpec
 ```
 
 This will run the test case `formal.NutCoreFormalSpec`, which transforms NutCore
