@@ -132,13 +132,22 @@ class Frontend_inorder(implicit val p: NutCoreConfig) extends NutCoreModule with
       // assume(RVI.regImm(tmpInst) || RVI.loadStore(tmpInst))
       // assume(RVI.loadStore(tmpInst))
       // assume(RVI.loadStore(tmpInst))
-      assume(
+      // assume(
+      //   (hasCSR(tmpInst(31,20)) && (RVZicsr.reg(tmpInst) || RVZicsr.imm(tmpInst))) 
+      //   || 
+      //   (  RVI.regImm(tmpInst) || RVI.loadStore(tmpInst)  || RVI.other(tmpInst))
+      //   ||
+      //   (RVPriviledged.trap_return(tmpInst))
+      //   // (RVPriviledged.trap_return(tmpInst))
+      // )
+
+      BoringUtils.addSource(
         (hasCSR(tmpInst(31,20)) && (RVZicsr.reg(tmpInst) || RVZicsr.imm(tmpInst))) 
-        || 
+        ||
         (  RVI.regImm(tmpInst) || RVI.loadStore(tmpInst)  || RVI.other(tmpInst))
         ||
-        (RVPrivileged.trap_return(tmpInst))
-        // (RVPrivileged.trap_return(tmpInst))
+        (RVPrivileged.trap_return(tmpInst)),
+        "someassumeid"
       )
       // assume(
       //   (hasCSR(tmpInst(31,20)) && (RVZicsr.reg(tmpInst) || RVZicsr.imm(tmpInst))) 

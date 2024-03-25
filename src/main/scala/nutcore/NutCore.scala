@@ -173,6 +173,12 @@ class NutCore(implicit val p: NutCoreConfig) extends NutCoreModule {
     io.mmio <> mmioXbar.io.out
 
     if (p.FPGAPlatform && p.Formal) {
+
+      val someAssume = Wire(Bool())
+      someAssume := DontCare
+      BoringUtils.addSink(someAssume, "someassumeid")
+      assume(someAssume)
+
       val isRead  = RegInit(false.B)
       val isWrite = RegInit(false.B)
       val addr    = RegInit(0.U(39.W))
