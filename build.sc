@@ -28,7 +28,7 @@ trait HasRiscvSpecCore extends ScalaModule with Cross.Module[String]{
       MavenRepository("https://s01.oss.sonatype.org/content/repositories/snapshots")
     )
   }
-  override def ivyDeps = Agg(ivy"cn.ac.ios.tis::riscvspeccore:1.0.0")
+  override def ivyDeps = Agg(ivy"cn.ac.ios.tis::riscvspeccore:1.1-chisel3.5.4-SNAPSHOT")
 }
 
 trait HasChiselTests extends SbtModule {
