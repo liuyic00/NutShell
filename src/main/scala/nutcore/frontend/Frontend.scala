@@ -126,7 +126,16 @@ class Frontend_inorder(implicit val p: NutCoreConfig) extends NutCoreModule with
     // before this, the inst may not been assemble/splite to 32bit
     val tmpInst = ibf.io.out.bits.instr(31, 0)
     implicit val checker_xlen = 64
-    
+
+    val tmpAssume = !ibf.io.out.valid || (
+      (hasCSR(tmpInst(31,20)) && (RVZicsr.reg(tmpInst) || RVZicsr.imm(tmpInst)))
+      ||
+      (RVI.regImm(tmpInst) || RVI.loadStore(tmpInst) || RVI.other(tmpInst))
+      ||
+      (RVPrivileged.trap_return(tmpInst)),
+    )
+    BoringUtils.addSource(tmpAssume, "someassumeid")
+
     when (ibf.io.out.valid){
       // Some assume example
       // assume(RVI.regImm(tmpInst) || RVI.loadStore(tmpInst))
@@ -140,15 +149,6 @@ class Frontend_inorder(implicit val p: NutCoreConfig) extends NutCoreModule with
       //   (RVPriviledged.trap_return(tmpInst))
       //   // (RVPriviledged.trap_return(tmpInst))
       // )
-
-      BoringUtils.addSource(
-        (hasCSR(tmpInst(31,20)) && (RVZicsr.reg(tmpInst) || RVZicsr.imm(tmpInst))) 
-        ||
-        (  RVI.regImm(tmpInst) || RVI.loadStore(tmpInst)  || RVI.other(tmpInst))
-        ||
-        (RVPrivileged.trap_return(tmpInst)),
-        "someassumeid"
-      )
       // assume(
       //   (hasCSR(tmpInst(31,20)) && (RVZicsr.reg(tmpInst) || RVZicsr.imm(tmpInst))) 
       //   ||
