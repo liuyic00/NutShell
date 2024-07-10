@@ -2,9 +2,9 @@ import mill._, scalalib._
 import coursier.maven.MavenRepository
 
 object ivys {
-  val scala = "2.12.13"
+  val scala = "2.12.17"
   val chiselCrossVersions = Map(
-    "3.5.4" -> (ivy"edu.berkeley.cs::chisel3:3.5.4", ivy"edu.berkeley.cs:::chisel3-plugin:3.5.4"),
+    "3.6.0" -> (ivy"edu.berkeley.cs::chisel3:3.6.0", ivy"edu.berkeley.cs:::chisel3-plugin:3.6.0"),
   )
 }
 
@@ -28,12 +28,12 @@ trait HasRiscvSpecCore extends ScalaModule with Cross.Module[String]{
       MavenRepository("https://s01.oss.sonatype.org/content/repositories/snapshots")
     )
   }
-  override def ivyDeps = Agg(ivy"cn.ac.ios.tis::riscvspeccore:1.0.0")
+  override def ivyDeps = Agg(ivy"cn.ac.ios.tis::riscvspeccore:1.1-SNAPSHOT")
 }
 
 trait HasChiselTests extends SbtModule {
   object test extends SbtModuleTests with TestModule.ScalaTest {
-    override def ivyDeps = Agg(ivy"edu.berkeley.cs::chiseltest:0.5.4")
+    override def ivyDeps = Agg(ivy"edu.berkeley.cs::chiseltest:0.6.0")
   }
 }
 
