@@ -23,7 +23,6 @@ import utils._
 import difftest._
 
 import rvspeccore.checker._
-import rvspeccore.core.{RiscvCore, RV64Config}
 import rvspeccore.core.spec._
 
 class WBU(implicit val p: NutCoreConfig) extends NutCoreModule{
