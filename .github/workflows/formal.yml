@@ -26,7 +26,7 @@ jobs:
       - name: Cache Scala
         uses: coursier/cache-action@v5
       - name: mill Test
-        run:  mill "chiselModule[3.5.4]".test
+        run:  mill "chiselModule[3.6.0]".test
       # - name: Single BtorMC Run 15 Steps
       #   if: always()
       #   run: btormc ./test_run_dir/NutCoreFormal_should_pass/NutCore.btor -kmax 15 --trace-gen-full --btor-stats > ./test_run_dir/NutCoreFormal_should_pass/15step.txt
