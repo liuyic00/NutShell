@@ -71,7 +71,12 @@ case class NutCoreConfig (
   EnableILA: Boolean = Settings.get("EnableILA"),
   EnableDebug: Boolean = Settings.get("EnableDebug"),
   EnhancedLog: Boolean = true ,
-  FormalConfig: RVConfig = RVConfig(64, "MCS", "A")
+  FormalConfig: RVConfig = RVConfig(
+    "XLEN" -> 64,
+    "extensions" -> "MCZicsrZifenceiSU",
+    "fakeExtensions" -> "A",
+    "functions" -> Seq("Privileged")
+  )
 )
 // Enable EnhancedLog will slow down simulation, 
 // but make it possible to control debug log using emu parameter
