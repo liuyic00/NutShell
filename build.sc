@@ -2,14 +2,16 @@ import mill._, scalalib._
 import coursier.maven.MavenRepository
 
 object ivys {
-  val scala = "2.12.17"
-  val chisel = ivy"edu.berkeley.cs::chisel3:3.6.0"
-  val chiselPlugin = ivy"edu.berkeley.cs:::chisel3-plugin:3.6.0"
-  val chiselTest = ivy"edu.berkeley.cs::chiseltest:0.6.0"
+  val scala = "2.13.14"
+  val chisel = ivy"org.chipsalliance::chisel:6.4.0"
+  val chiselPlugin = ivy"org.chipsalliance:::chisel-plugin:6.4.0"
+  val chiselTest = ivy"edu.berkeley.cs::chiseltest:6.0.0"
 }
 
 trait CommonModule extends ScalaModule {
   override def scalaVersion = ivys.scala
+
+  override def scalacOptions = Seq("-Ymacro-annotations")
 }
 
 trait HasChisel extends ScalaModule {

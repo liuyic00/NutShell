@@ -21,7 +21,6 @@ import chisel3.util._
 import chisel3.util.experimental.BoringUtils
 import utils._
 import bus.simplebus._
-import chisel3.experimental.IO
 
 import rvspeccore.checker._
 import rvspeccore.core.spec.instset.csr.{CSR => SpecCSR}
@@ -119,7 +118,7 @@ class Frontend_inorder(implicit val p: NutCoreConfig) extends NutCoreModule with
   io.imem <> ifu.io.imem
   def hasCSR(addr: UInt) :Bool = {
     val speccsr = new SpecCSR()(64, p.FormalConfig)
-    MuxLookup(addr, false.B, speccsr.table.map { x => x.info.addr -> true.B })
+    MuxLookup(addr, false.B)(speccsr.table.map { x => x.info.addr -> true.B })
   }
   if (p.Formal) {
     // here is the earliest place to assume the inst

@@ -185,7 +185,7 @@ class NutCore(implicit val p: NutCoreConfig) extends NutCoreModule {
       val width   = RegInit(0.U(log2Ceil(64 + 1).W))
 
       def sz2wth(size: UInt) = {
-        MuxLookup(size, 0.U, List(
+        MuxLookup(size, 0.U)(List(
           0.U -> 8.U,
           1.U -> 16.U,
           2.U -> 32.U,

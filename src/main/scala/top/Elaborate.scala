@@ -13,6 +13,10 @@ object EmitNutCore extends App {
       println(f + " = " + v)
   }
 
-  (new chisel3.stage.ChiselStage)
-    .emitSystemVerilog(new NutCore()(NutCoreConfig()), Array("--target-dir", "test_run_dir/Elaborate"))
+  import _root_.circt.stage.ChiselStage
+  ChiselStage.emitSystemVerilogFile(
+    new NutCore()(NutCoreConfig()),
+    Array("--target-dir", "test_run_dir/Elaborate"),
+    firtoolOpts = Array("-disable-all-randomization", "--emit-chisel-asserts-as-sva")
+  )
 }
