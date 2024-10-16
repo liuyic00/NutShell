@@ -1,6 +1,3 @@
-[submodule "difftest"]
-	path = difftest
-	url = https://github.com/OpenXiangShan/difftest.git
 [submodule "riscv-spec-core"]
 	path = riscv-spec-core
 	url = https://github.com/iscas-tis/riscv-spec-core.git

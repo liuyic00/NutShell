@@ -29,15 +29,10 @@ object riscvSpecCore extends CommonNS {
   override def millSourcePath = os.pwd / "riscv-spec-core"
 }
 
-object difftest extends CommonNS {
-  override def millSourcePath = os.pwd / "difftest"
-}
-
 object chiselModule extends CommonNS with HasChiselTests {
   override def millSourcePath = os.pwd
 
   override def moduleDeps = super.moduleDeps ++ Seq(
-    difftest,
     riscvSpecCore
   )
 }

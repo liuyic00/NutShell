@@ -23,7 +23,6 @@ import chisel3.util.experimental.BoringUtils
 import utils._
 import bus.simplebus._
 import top.Settings
-import difftest._
 
 class EXU(implicit val p: NutCoreConfig) extends NutCoreModule {
   val io = IO(new Bundle {
@@ -142,13 +141,6 @@ class EXU(implicit val p: NutCoreConfig) extends NutCoreModule {
     BoringUtils.addSink(instrCnt, "simInstrCnt")
     BoringUtils.addSource(nutcoretrap, "nutcoretrap")
 
-    val difftest = Module(new DifftestTrapEvent)
-    difftest.io.clock    := clock
-    difftest.io.coreid   := 0.U // TODO: nutshell does not support coreid auto config
-    difftest.io.valid    := nutcoretrap
-    difftest.io.code     := io.in.bits.data.src1
-    difftest.io.pc       := io.in.bits.cf.pc
-    difftest.io.cycleCnt := cycleCnt
-    difftest.io.instrCnt := instrCnt
+    // removed difftest code here
   }
 }

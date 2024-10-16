@@ -22,7 +22,6 @@ import chisel3.util.experimental.BoringUtils
 
 import utils._
 import bus.simplebus._
-import difftest._
 
 trait HasBackendConst{
   // val multiIssue = true
@@ -640,10 +639,11 @@ class Backend_ooo(implicit val p: NutCoreConfig) extends NutCoreModule with HasR
   BoringUtils.addSource(!io.in(0).valid, "perfCntCondMdpNoInst")
 
   if (!p.FPGAPlatform) {
-    val difftestGpr = Module(new DifftestArchIntRegState)
-    difftestGpr.io.clock  := clock
-    difftestGpr.io.coreid := 0.U // TODO
-    difftestGpr.io.gpr    := VecInit((0 to NRReg-1).map(i => rf.read(i.U)))
+    // removed difftest code here
+    // val difftestGpr = Module(new DifftestArchIntRegState)
+    // difftestGpr.io.clock  := clock
+    // difftestGpr.io.coreid := 0.U // TODO
+    // difftestGpr.io.gpr    := VecInit((0 to NRReg-1).map(i => rf.read(i.U)))
   }
 
   if (!p.FPGAPlatform) {
@@ -655,14 +655,7 @@ class Backend_ooo(implicit val p: NutCoreConfig) extends NutCoreModule with HasR
     BoringUtils.addSink(instrCnt, "simInstrCnt")
     BoringUtils.addSource(nutcoretrap, "nutcoretrap")
 
-    val difftest = Module(new DifftestTrapEvent)
-    difftest.io.clock    := clock
-    difftest.io.coreid   := 0.U // TODO: nutshell does not support coreid auto config
-    difftest.io.valid    := nutcoretrap
-    difftest.io.code     := csrrs.io.out.bits.decode.data.src1
-    difftest.io.pc       := csrrs.io.out.bits.decode.cf.pc
-    difftest.io.cycleCnt := cycleCnt
-    difftest.io.instrCnt := instrCnt
+    // removed difftest code here
   }
   
 }

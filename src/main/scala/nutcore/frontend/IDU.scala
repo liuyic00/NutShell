@@ -21,7 +21,6 @@ import chisel3.util._
 import chisel3.util.experimental.BoringUtils
 
 import utils._
-import difftest._
 
 class Decoder(implicit val p: NutCoreConfig) extends NutCoreModule with HasInstrType {
   val io = IO(new Bundle {
@@ -209,14 +208,8 @@ class IDU(implicit val p: NutCoreConfig) extends NutCoreModule with HasInstrType
 
   if (!p.FPGAPlatform) {
     // debug runahead
-    val runahead = Module(new DifftestRunaheadEvent)
-    runahead.io.clock         := clock
-    runahead.io.coreid        := 0.U
-    runahead.io.valid         := io.out(0).fire
-    runahead.io.branch        := decoder1.io.isBranch
-    runahead.io.pc            := io.out(0).bits.cf.pc
-    runahead.io.checkpoint_id := checkpoint_id
-    when(runahead.io.valid && runahead.io.branch) {
+    // removed difftest code here
+    when(io.out(0).fire && decoder1.io.isBranch) {
       checkpoint_id := checkpoint_id + 1.U // allocate a new checkpoint_id
     }
     io.out(0).bits.cf.isBranch := decoder1.io.isBranch

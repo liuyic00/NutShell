@@ -22,7 +22,6 @@ import chisel3.util.experimental.BoringUtils
 
 import utils._
 import top.Settings
-import difftest._
 
 object CSROpType {
   def jmp  = "b000".U
@@ -892,36 +891,7 @@ class CSR(implicit val p: NutCoreConfig) extends NutCoreModule with HasCSRConst{
       }
     }
 
-    // for differential testing
-    val difftest = Module(new DifftestCSRState)
-    difftest.io.clock := clock
-    difftest.io.coreid := 0.U // TODO
-    difftest.io.priviledgeMode := RegNext(priviledgeMode)
-    difftest.io.mstatus := RegNext(mstatus)
-    difftest.io.sstatus := RegNext(mstatus & sstatusRmask)
-    difftest.io.mepc := RegNext(mepc)
-    difftest.io.sepc := RegNext(sepc)
-    difftest.io.mtval:= RegNext(mtval)
-    difftest.io.stval:= RegNext(stval)
-    difftest.io.mtvec := RegNext(mtvec)
-    difftest.io.stvec := RegNext(stvec)
-    difftest.io.mcause := RegNext(mcause)
-    difftest.io.scause := RegNext(scause)
-    difftest.io.satp := RegNext(satp)
-    difftest.io.mip := RegNext(mipReg)
-    difftest.io.mie := RegNext(mie)
-    difftest.io.mscratch := RegNext(mscratch)
-    difftest.io.sscratch := RegNext(sscratch)
-    difftest.io.mideleg := RegNext(mideleg)
-    difftest.io.medeleg := RegNext(medeleg)
-
-    val difftestArchEvent = Module(new DifftestArchEvent)
-    difftestArchEvent.io.clock := clock
-    difftestArchEvent.io.coreid := 0.U // TODO
-    difftestArchEvent.io.intrNO := RegNext(RegNext(Mux(raiseIntr && io.instrValid && valid, intrNO, 0.U)))
-    difftestArchEvent.io.cause := RegNext(RegNext(Mux(raiseException && io.instrValid && valid, exceptionNO, 0.U)))
-    difftestArchEvent.io.exceptionPC := RegNext(RegNext(SignExt(io.cfIn.pc, XLEN)))
-    difftestArchEvent.io.exceptionInst := RegNext(RegNext(io.cfIn.instr))
+    // removed difftest code here
 
   } else {
     if (p.Formal) {

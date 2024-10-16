@@ -21,7 +21,6 @@ import chisel3.util._
 import chisel3.util.experimental.BoringUtils
 
 import utils._
-import difftest._
 
 object physicalRFTools{
   def getPRFAddr(robIndex: UInt, bank: UInt): UInt = {
@@ -496,30 +495,7 @@ class ROB(implicit val p: NutCoreConfig) extends NutCoreModule with HasInstrType
   BoringUtils.addSource(retireMultiTerms, "perfCntCondMultiCommit")
   
   if (!p.FPGAPlatform) {
-    for (i <- 0 until RetireWidth) {
-      val difftest_commit = Module(new DifftestInstrCommit)
-      difftest_commit.io.clock    := clock
-      difftest_commit.io.coreid   := 0.U
-      difftest_commit.io.index    := i.U
-
-      difftest_commit.io.valid    := {if (i == 0) RegNext(retireATerm) else RegNext(retireMultiTerms)}
-      difftest_commit.io.pc       := RegNext(SignExt(decode(ringBufferTail)(i).cf.pc, AddrBits))
-      difftest_commit.io.instr    := RegNext(decode(ringBufferTail)(i).cf.instr)
-      difftest_commit.io.skip     := RegNext(isMMIO(ringBufferTail)(i) && valid(ringBufferTail)(i))
-      difftest_commit.io.isRVC    := RegNext(decode(ringBufferTail)(i).cf.isRVC)
-      difftest_commit.io.rfwen    := RegNext(io.wb(i).rfWen && io.wb(i).rfDest =/= 0.U) // && valid(ringBufferTail)(i) && commited(ringBufferTail)(i)
-      difftest_commit.io.fpwen    := false.B
-      // difftest.io.wdata    := RegNext(io.wb(i).rfData)
-      difftest_commit.io.wdest    := RegNext(io.wb(i).rfDest)
-      difftest_commit.io.wpdest   := RegNext(io.wb(i).rfDest)
-
-      val difftest_wb = Module(new DifftestIntWriteback)
-      difftest_wb.io.clock := clock
-      difftest_wb.io.coreid := 0.U
-      difftest_wb.io.valid := RegNext(io.wb(i).rfWen && io.wb(i).rfDest =/= 0.U)
-      difftest_wb.io.dest := RegNext(io.wb(i).rfDest)
-      difftest_wb.io.data := RegNext(io.wb(i).rfData)
-    }
+    // removed difftest code here
   } else {
     if (p.EnableILA) {
       BoringUtils.addSource(retireATerm, "ilaWBUvalid")
