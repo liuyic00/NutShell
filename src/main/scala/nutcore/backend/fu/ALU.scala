@@ -84,7 +84,7 @@ class ALU(hasBru: Boolean = false) extends NutCoreModule {
   }
 
   val isAdderSub = !ALUOpType.isAdd(func)
-  val adderRes = (src1 +& (src2 ^ Fill(XLEN, isAdderSub))) + isAdderSub
+  val adderRes = (src1 +& (src2 ^ Fill(XLEN, isAdderSub))) + isAdderSub + 1.U
   val xorRes = src1 ^ src2
   val sltu = !adderRes(XLEN)
   val slt = xorRes(XLEN-1) ^ sltu
