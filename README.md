@@ -36,6 +36,9 @@ cd nutshell-fv
 git submodule update --init --recursive
 ```
 
+[riscv-spec-core](https://github.com/iscas-tis/riscv-spec-core) has been
+imported as a submodule.
+
 ### Run Verification
 
 In this project, run:
@@ -47,6 +50,9 @@ mill chiselModule.test.testOnly formal.NutCoreFormalSpec
 This will run the test case `formal.NutCoreFormalSpec`, which transforms NutCore
 (core computing unit) with assertions and `SpecCore` in riscv-spec-core to a
 transaction system and then passes it to the formal verification backend.
+
+A bug has been inserted in the ALU.
+`adderRes` will give an incorrect value.
 
 ## Modifications On NutShell
 
